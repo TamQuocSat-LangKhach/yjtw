@@ -125,7 +125,7 @@ local tw__rangyi = fk.CreateActiveSkill{
     local pattern = "^(jink,nullification)|.|.|.|.|.|"
     for _, id in ipairs(cards) do
       local card = Fk:getCardById(id)
-      if not target:prohibitUse(card) and card.skill:canUse(target) then
+      if not target:prohibitUse(card) and target:canUse(card) then
         pattern = pattern..id..","
       end
     end
