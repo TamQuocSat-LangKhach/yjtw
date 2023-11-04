@@ -46,7 +46,7 @@ local tw__liancai = fk.CreateTriggerSkill{
   anim_type = "drawcard",
   events = {fk.EventPhaseStart, fk.TurnedOver},
   can_trigger = function(self, event, target, player, data)
-    if target == player and player:hasSkill(self.name) then
+    if target == player and player:hasSkill(self) then
       if event == fk.EventPhaseStart then
         return player.phase == Player.Finish and table.find(player.room.alive_players, function(p) return #p:getCardIds("e") > 0 end)
       else
@@ -155,7 +155,7 @@ local tw__baimei = fk.CreateTriggerSkill{
   events = {fk.DamageInflicted},
   frequency = Skill.Compulsory,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(self.name) and player:isKongcheng() and
+    return target == player and player:hasSkill(self) and player:isKongcheng() and
       ((data.card and data.card.type == Card.TypeTrick) or data.damageType ~= fk.NormalDamage)
   end,
   on_use = function(self, event, target, player, data)

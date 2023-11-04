@@ -12,7 +12,7 @@ local tw__xiaolian = fk.CreateTriggerSkill{
   anim_type = "support",
   events = {fk.TargetConfirming},
   can_trigger = function(self, event, target, player, data)
-    return player:hasSkill(self.name) and target ~= player and data.card.trueName == "slash" and
+    return player:hasSkill(self) and target ~= player and data.card.trueName == "slash" and
       data.tos and #AimGroup:getAllTargets(data.tos) == 1 and (not data.from or data.from ~= player.id)
   end,
   on_cost = function(self, event, target, player, data)
@@ -121,7 +121,7 @@ local tw__yinqin = fk.CreateTriggerSkill{
   anim_type = "special",
   events = {fk.EventPhaseStart},
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(self.name) and player.phase == Player.Start
+    return target == player and player:hasSkill(self) and player.phase == Player.Start
   end,
   on_cost = function(self, event, target, player, data)
     local choices = {"Cancel", "wei", "shu"}
@@ -142,7 +142,7 @@ local tw__baobian = fk.CreateTriggerSkill{
   mute = true,
   events = {fk.DamageCaused},
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(self.name) and data.card and table.contains({"slash", "duel"}, data.card.trueName)
+    return target == player and player:hasSkill(self) and data.card and table.contains({"slash", "duel"}, data.card.trueName)
   end,
   on_cost = function(self, event, target, player, data)
     local prompt = ""
@@ -189,7 +189,7 @@ local tw__tijin = fk.CreateTriggerSkill{
   anim_type = "support",
   events = {fk.TargetSpecifying},
   can_trigger = function(self, event, target, player, data)
-    return player:hasSkill(self.name) and target ~= player and data.card.trueName == "slash" and
+    return player:hasSkill(self) and target ~= player and data.card.trueName == "slash" and
       data.tos and #AimGroup:getAllTargets(data.tos) == 1 and (data.tos[1][1] ~= player.id) and
       target:inMyAttackRange(player)
   end,
