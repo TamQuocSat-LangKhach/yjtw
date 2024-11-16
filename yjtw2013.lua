@@ -5,6 +5,7 @@ Fk:loadTranslationTable{
   ["yjtw2013"] = "台湾一将2013",
   ["tw"] = "台版",
 }
+local U = require "packages/utility/utility"
 
 local caoang = General(extension, "tw__caoang", "wei", 4)
 local tw__xiaolian = fk.CreateTriggerSkill{
@@ -125,16 +126,16 @@ local tw__yinqin = fk.CreateTriggerSkill{
   end,
   on_cost = function(self, event, target, player, data)
     local choices = {"Cancel", "wei", "shu"}
+    local all_choices = table.simpleClone(choices)
     table.removeOne(choices, player.kingdom)
-    local choice = player.room:askForChoice(player, choices, self.name, "#tw__yinqin-invoke")
+    local choice = player.room:askForChoice(player, choices, self.name, "#tw__yinqin-invoke", nil, all_choices)
     if choice ~= "Cancel" then
       self.cost_data = choice
       return true
     end
   end,
   on_use = function(self, event, target, player, data)
-    player.kingdom = self.cost_data
-    player.room:broadcastProperty(player, "kingdom")
+    player.room:changeKingdom(player, self.cost_data, true)
   end,
 }
 local tw__baobian = fk.CreateTriggerSkill{
@@ -191,7 +192,7 @@ local tw__tijin = fk.CreateTriggerSkill{
   can_trigger = function(self, event, target, player, data)
     return player:hasSkill(self) and target ~= player and data.card.trueName == "slash" and
       data.tos and #AimGroup:getAllTargets(data.tos) == 1 and (data.tos[1][1] ~= player.id) and
-      target:inMyAttackRange(player)
+      target:inMyAttackRange(player) and U.canTransferTarget(player, data)
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askForSkillInvoke(player, self.name, nil, "#tw__tijin-invoke::"..data.tos[1][1]..":"..data.card:toLogString())

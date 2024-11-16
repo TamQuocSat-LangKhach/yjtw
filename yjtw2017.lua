@@ -224,13 +224,10 @@ local tw__zhuchen = fk.CreateActiveSkill{
 }
 local tw__zhuchen_distance = fk.CreateDistanceSkill{
   name = "#tw__zhuchen_distance",
-  correct_func = function(self, from, to)
+  fixed_func = function(self, from, to)
     if to:getMark("tw__zhuchen-turn") == from.id then
-      from:setFixedDistance(to, 1)
-    else
-      from:removeFixedDistance(to)
+      return 1
     end
-    return 0
   end,
 }
 tw__zhuchen:addRelatedSkill(tw__zhuchen_distance)
