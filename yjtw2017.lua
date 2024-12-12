@@ -15,9 +15,7 @@ local tw__huzhu = fk.CreateActiveSkill{
   can_use = function(self, player)
     return #player:getCardIds("e") > 0 and player:usedSkillTimes(self.name, Player.HistoryPhase) == 0
   end,
-  card_filter = function(self, to_select, selected)
-    return false
-  end,
+  card_filter = Util.FalseFunc,
   target_filter = function(self, to_select, selected)
     return #selected == 0 and to_select ~= Self.id and not Fk:currentRoom():getPlayerById(to_select):isKongcheng()
   end,
@@ -158,9 +156,7 @@ local tw__baimei = fk.CreateTriggerSkill{
     return target == player and player:hasSkill(self) and player:isKongcheng() and
       ((data.card and data.card.type == Card.TypeTrick) or data.damageType ~= fk.NormalDamage)
   end,
-  on_use = function(self, event, target, player, data)
-    return true
-  end,
+  on_use = Util.TrueFunc,
 }
 maliang:addSkill(tw__rangyi)
 maliang:addSkill(tw__baimei)

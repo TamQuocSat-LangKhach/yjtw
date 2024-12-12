@@ -215,9 +215,7 @@ local tw__tijin_trigger = fk.CreateTriggerSkill{
       data.extra_data.tw__tijin[1] == player.id and not player.dead and
       data.extra_data.tw__tijin[2] == target.id and not target.dead and not target:isNude()
   end,
-  on_cost = function(self, event, target, player, data)
-    return true
-  end,
+  on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
     local room = player.room
     room:doIndicate(player.id, {target.id})
